@@ -9,7 +9,7 @@ import axios from 'axios';
 import AppRoutes from './AppRoutes';
 import MenuItems from './MenuItems';
 
-function App() { // hello world
+function App() {
     const appName = "IT Academy Coffee Shop";
 
     const [user, setUser] = useState(null);
