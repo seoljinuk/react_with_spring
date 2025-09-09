@@ -1,25 +1,65 @@
-import logo from './logo.svg';
-import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Container, Nav, Navbar } from 'react-bootstrap';
+import { API_BASE_URL } from './config';
+import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import axios from 'axios';
+
+// 👇 분리한 라우트 컴포넌트 import
+import AppRoutes from './AppRoutes';
+import MenuItems from './MenuItems';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const appName = "IT Academy Coffee Shop";
+
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const loginUser = localStorage.getItem('user');
+        setUser(JSON.parse(loginUser));
+    }, []);
+
+    const handleLoginSuccess = (userData) => {
+        setUser(userData);
+        localStorage.setItem('user', JSON.stringify(userData));
+        console.log('로그인 성공');
+    };
+
+    const handleLogout = (event) => {
+        event.preventDefault();
+
+        axios.post(`${API_BASE_URL}/member/logout`)
+            .then(() => {
+                setUser(null);
+                localStorage.removeItem('user');
+                console.log('로그 아웃 성공');
+                navigate("/member/login");
+            })
+            .catch((error) => {
+                console.log('로그 아웃 실패', error);
+            });
+    };
+
+    return (
+        <>
+            <Navbar bg='dark' variant='dark' expand='lg'>
+                <Container>
+                    <Navbar.Brand href='/'>{appName}</Navbar.Brand>
+                    <Nav className="me-auto">
+                        <MenuItems user={user} handleLogout={handleLogout} />
+                    </Nav>
+                </Container>
+            </Navbar>
+
+            {/* 👇 분리한 라우터 적용 */}
+            <AppRoutes user={user} handleLoginSuccess={handleLoginSuccess} />
+
+            <footer className="bg-dark text-light text-center py-3 mt-5">
+                <p>© 2025 {appName}. All rights reserved.</p>
+            </footer>
+        </>
+    );
 }
 
 export default App;
