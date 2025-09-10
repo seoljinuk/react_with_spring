@@ -30,7 +30,7 @@ function App({ user }) {
     useEffect(() => { // backend 서버에서 데이터 읽어 오기
         // const url = "`{API_BASE_URL}`/product/list"; // 전체 가져 오기
         //const url = "`{API_BASE_URL}`/product/list?pageNumber=${paging.pageNumber}&pageSize=${paging.pageSize}";
-		const url = `${API_BASE_URL}/product/list`;
+        const url = `${API_BASE_URL}/product/list`;
 
         axios.get(url, {
             params: {
@@ -39,7 +39,8 @@ function App({ user }) {
                 searchDateType: paging.searchDateType,
                 category: paging.category,
                 searchMode: paging.searchMode,
-                searchKeyword: paging.searchKeyword
+                searchKeyword: paging.searchKeyword,
+                withCredentials: true
             }
         })
             .then((response) => {
