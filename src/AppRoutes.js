@@ -6,6 +6,7 @@ import LoginPage from './pages/LoginPage';
 import SignupPage from './pages/SignupPage';
 import ProductList from './pages/ProductList';
 import ProductDetail from './pages/ProductDetail';
+import ProductDelete from './pages/ProductDelete';
 import ProductInsertForm from './pages/ProductInsertForm';
 import ProductUpdateForm from './pages/ProductUpdateForm';
 import CartList from './pages/CartList';
@@ -22,6 +23,7 @@ function AppRoutes({ user, handleLoginSuccess }) {
             <Route path='/product/list' element={<ProductList user={user} />} />
             <Route path='/product/insert' element={<ProductInsertForm />} />
             <Route path='/product/update/:id' element={<ProductUpdateForm />} />
+            {/* <Route path='/product/delete/:id' element={<ProductDelete user={user} />} /> */}
 
             {/* 장바구니 목록 페이지(user 넘겨줌) */}
             <Route path='/cart/list' element={<CartList user={user} />} />

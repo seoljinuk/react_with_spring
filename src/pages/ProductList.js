@@ -196,7 +196,34 @@ function App({ user }) {
                                         >
                                             수정
                                         </Button>
-                                        <Button variant="danger" className="me-2">삭제</Button>
+                                        <Button
+                                            variant="danger"
+                                            className="me-2"
+                                            onClick={async (event) => {
+                                                event.stopPropagation(); // Card Click Event 방지
+
+                                                // 삭제 확인 창
+                                                const confirmDelete = window.confirm(`${product.name} 상품을 정말 삭제하시겠습니까?`);
+                                                if (!confirmDelete) {
+                                                    alert(`${product.name} 상품 삭제를 취소하셨습니다.`);
+                                                    return; // '취소' 클릭 시 아무 동작도 하지 않음                                                  
+                                                }
+
+                                                try {
+                                                    // 삭제 API 호출
+                                                    await axios.delete(`${API_BASE_URL}/product/delete/${product.id}`);
+                                                    alert(`${product.name} 상품이 삭제되었습니다.`);
+
+                                                    // 삭제 후 목록 페이지로 이동
+                                                    navigate('/product/list');
+                                                } catch (error) {
+                                                    console.log(error);
+                                                    alert('상품 삭제 실패: ' + (error.response?.data || error.message));
+                                                }
+                                            }}
+                                        >
+                                            삭제
+                                        </Button>
                                     </div>
                                 )}
                             </Card.Body>
