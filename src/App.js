@@ -29,7 +29,7 @@ function App() {
     const handleLogout = (event) => {
         event.preventDefault();
 
-        axios.post(`${API_BASE_URL}/member/logout`)
+        axios.post(`${API_BASE_URL}/member/logout`, {}, { withCredentials: true })
             .then(() => {
                 setUser(null);
                 localStorage.removeItem('user');
