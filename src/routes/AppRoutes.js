@@ -32,7 +32,7 @@ function AppRoutes({ user, handleLoginSuccess }) {
             {/* 미로그인시 [장바구니]와 [구매하기] 기능은 선택 불가능해야 하므로, user를 넘겨 줍니다. */}
             <Route path='/product/detail/:id' element={<ProductDetail user={user} />} />
 
-            <Route path='/order/list/:id' element={<OrderList user={user} />} />
+            <Route path='/order/list' element={<OrderList user={user} />} />
         </Routes>
     );
 }
