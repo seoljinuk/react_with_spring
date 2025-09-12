@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Button, Card, Col, Container, Form, Row, Table } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import { API_BASE_URL } from './../config';
+import { API_BASE_URL } from '../config/config';
 
 function App({ user }) {
     // user가 미로그인이면 [구매 수량 입력], [장바구니], [구매하기] 기능 불가능하게 설정하도록 합니다.
@@ -49,40 +49,40 @@ function App({ user }) {
     // 수량 체인치 관련 이벤트 핸들러
     const handleQuantityChange = (event) => {
         const newValue = parseInt(event.target.value);
-        setQuantity(newValue) ; 
-    };   
-    
+        setQuantity(newValue);
+    };
+
     // 장바구니에 추가하기
     // const addToCart = () => {
     //     alert(`${product.name} ${quantity}개를 장바구니에 담기`);
     // };
 
     const addToCart = async () => {
-        if(quantity < 1){
+        if (quantity < 1) {
             alert('수량을 1개 이상 선택해 주세요.');
-            return ;
+            return;
         }
 
-        try{
+        try {
             const url = `${API_BASE_URL}/cart/insert`;
             const data = {
                 memberId: user.id,
                 productId: product.id,
                 quantity: quantity
-            } ;
+            };
             const response = await axios.post(url, data);
 
             alert(response.data);
             //alert(`${product.name} ${quantity}개를 장바구니에 담기`);
-            navigate('/product/list') ; // 상품 목록 페이지로 이동
+            navigate('/product/list'); // 상품 목록 페이지로 이동
 
-        }catch(error){
-            console.log('오류 발생 : ' + error) ;
+        } catch (error) {
+            console.log('오류 발생 : ' + error);
 
-            if(error.response){
+            if (error.response) {
                 alert(`장바구니 추가 실패 : ${error.response.data}`);
 
-            }else{
+            } else {
                 alert(`장바구니 추가 중 오류 발생`);
             }
         }
@@ -93,37 +93,37 @@ function App({ user }) {
     //     alert(`${product.name} ${quantity}개를 지금 구매하기`);
     // };       
     const buyNow = async () => {
-        if(quantity < 1){
+        if (quantity < 1) {
             alert('수량을 1개 이상 선택해 주세요.');
-            return ;
+            return;
         }
 
-        try{
+        try {
             const url = `${API_BASE_URL}/order`;
             const data = {
-                memberId : user.id,
+                memberId: user.id,
                 status: 'PENDING',
-                orderItems:[
+                orderItems: [
                     {
-                       productId: product.id,
-                       quantity: quantity 
+                        productId: product.id,
+                        quantity: quantity
                     }
                 ]
-            } ;
+            };
 
-            const response = await axios.post(url, data) ;
+            const response = await axios.post(url, data);
 
             alert(`${product.name} ${quantity}개를 구매하였습니다.`);
-            navigate('/product/list') ; // 상품 목록 페이지로 이동
+            navigate('/product/list'); // 상품 목록 페이지로 이동
 
-        }catch(error){
+        } catch (error) {
             console.log(error);
-            alert('구매 실패 : ' + (error.response?.data) || error.message) ;
-        }        
+            alert('구매 실패 : ' + (error.response?.data) || error.message);
+        }
     };
 
- 
-    
+
+
 
     if (loading === true) {
         return <Container className="my-4 text-center"><h3>상품 정보를 읽어 오는 중입니다.</h3></Container>;
@@ -195,25 +195,25 @@ function App({ user }) {
                             {/* 버튼 (목록으로 & 장바구니 & 구매하기) */}
                             <div className="d-flex justify-content-center mt-3">
                                 <Button variant="primary" className="me-3 px-4" href="/product/list">목록으로</Button>
-                                <Button variant="success" className="me-3 px-4" 
+                                <Button variant="success" className="me-3 px-4"
                                     onClick={() => {
-                                        if(!user){
+                                        if (!user) {
                                             alert('로그인이 필요한 서비스입니다');
                                             return navigate('/member/login');
-                                        }else{
+                                        } else {
                                             addToCart();
-                                        }                                        
+                                        }
                                     }}>
                                     장바구니
                                 </Button>
-                                <Button variant="danger" className="px-4" 
+                                <Button variant="danger" className="px-4"
                                     onClick={() => {
-                                        if(!user){
+                                        if (!user) {
                                             alert('로그인이 필요한 서비스입니다');
                                             return navigate('/member/login');
-                                        }else{
-                                            buyNow() ;
-                                        }                                        
+                                        } else {
+                                            buyNow();
+                                        }
                                     }}>
                                     구매하기
                                 </Button>

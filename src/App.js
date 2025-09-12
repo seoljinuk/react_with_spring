@@ -1,13 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import { API_BASE_URL } from './config';
+import { API_BASE_URL } from './config/config';
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 
 // 👇 분리한 라우트 컴포넌트 import
-import AppRoutes from './AppRoutes';
-import MenuItems from './MenuItems';
+import AppRoutes from './routes/AppRoutes';
+import MenuItems from './ui/MenuItems';
 
 function App() {
     const appName = "IT Academy Coffee Shop";

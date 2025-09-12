@@ -2,7 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Card, Button, Pagination, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { API_BASE_URL } from '../config/config';
+import { API_BASE_URL } from './../config';
 
 function App({ user }) {
     /* user === 'ADMIN'이면 [상품 등록], [수정], [삭제] 메뉴가 보여야 합니다. */
@@ -50,7 +50,7 @@ function App({ user }) {
                 setProducts(response.data.content || []); // 안전한 기본 값 설정
 
                 // 페이징 정보를 업데이트합니다.
-                setPaging((previous) => {
+                setPaging((prev) => {
                     const totalElements = response.data.totalElements;
                     const totalPages = response.data.totalPages;
                     const pageNumber = response.data.pageable.pageNumber;
@@ -58,14 +58,14 @@ function App({ user }) {
                     // pageSize 이 값은 고정적이므로 할당 받지 않아도 무방합니다.
                     // 단, pageSize 개수가 가변적인 경우 반드시 다시 할당해야 합니다.
                     const pageSize = response.data.pageable.pageSize;
-                    const beginPage = Math.floor(pageNumber / previous.pageCount) * previous.pageCount;
-                    const endPage = Math.min(beginPage + previous.pageCount - 1, totalPages - 1);
+                    const beginPage = Math.floor(pageNumber / prev.pageCount) * prev.pageCount;
+                    const endPage = Math.min(beginPage + prev.pageCount - 1, totalPages - 1);
                     // pageCount: 10 // 고정 값으로 그냥 진행
 
                     const pagingStatus = `${pageNumber + 1}/${totalPages} 페이지`;
 
                     return {
-                        ...previous,
+                        ...prev,
                         totalElements: totalElements,
                         totalPages: totalPages,
                         pageNumber: pageNumber,
@@ -102,7 +102,7 @@ function App({ user }) {
                     {/* 🔹 검색 기간 선택 */}
                     <Col md={2}>
                         <Form.Select name="searchDateType" value={paging.searchDateType}
-                            onChange={(e) => setPaging((previous) => ({ ...previous, searchDateType: e.target.value }))}
+                            onChange={(e) => setPaging(prev => ({ ...prev, searchDateType: e.target.value }))}
                         >
                             <option value="all">전체 기간</option>
                             <option value="1d">1일</option>
@@ -115,7 +115,7 @@ function App({ user }) {
                     {/* 🔹 카테고리 선택 */}
                     <Col md={2}>
                         <Form.Select name="category" value={paging.category}
-                            onChange={(e) => setPaging((previous) => ({ ...previous, category: e.target.value }))}
+                            onChange={(e) => setPaging(prev => ({ ...prev, category: e.target.value }))}
                         >
                             <option value="ALL">카테고리 선택</option>
                             <option value="BREAD">빵</option>
@@ -127,7 +127,7 @@ function App({ user }) {
                     {/* 🔹 검색 모드 선택 */}
                     <Col md={2}>
                         <Form.Select name="searchMode" value={paging.searchMode}
-                            onChange={(e) => setPaging((previous) => ({ ...previous, searchMode: e.target.value }))}
+                            onChange={(e) => setPaging(prev => ({ ...prev, searchMode: e.target.value }))}
                         >
                             <option value="ALL">전체 검색</option>
                             <option value="name">상품명</option>
@@ -143,7 +143,7 @@ function App({ user }) {
                             value={paging.searchKeyword}
                             onChange={(e) => {
                                 e.preventDefault()
-                                setPaging((previous) => ({ ...previous, searchKeyword: e.target.value }));
+                                setPaging(prev => ({ ...prev, searchKeyword: e.target.value }));
                             }}
                             placeholder="검색어를 입력하세요"
                         />
@@ -238,7 +238,7 @@ function App({ user }) {
                 <Pagination.First
                     onClick={() => {
                         console.log(`First 버튼 클릭 : 0 페이지로 이동`);
-                        setPaging((previous) => ({ ...previous, pageNumber: 0 }));
+                        setPaging((prev) => ({ ...prev, pageNumber: 0 }));
                     }}
                     disabled={paging.pageNumber < paging.pageCount}
                     as="button"
@@ -250,7 +250,7 @@ function App({ user }) {
                     onClick={() => {
                         const gotoPrevPage = paging.beginPage - 1;
                         console.log(`Prev 버튼 클릭 : ${gotoPrevPage} 페이지로 이동`);
-                        setPaging((previous) => ({ ...previous, pageNumber: gotoPrevPage }));
+                        setPaging((prev) => ({ ...prev, pageNumber: gotoPrevPage }));
                     }}
                     disabled={paging.pageNumber < paging.pageCount}
                     as="button"
@@ -268,7 +268,7 @@ function App({ user }) {
                             active={paging.pageNumber === (pageIndex - 1)}
                             onClick={() => {
                                 console.log(`${pageIndex} 페이지로 이동하기`);
-                                setPaging((previous) => ({ ...previous, pageNumber: (pageIndex - 1) }));
+                                setPaging((prev) => ({ ...prev, pageNumber: (pageIndex - 1) }));
                             }}
                         >
                             {pageIndex}
@@ -281,7 +281,7 @@ function App({ user }) {
                     onClick={() => {
                         const gotoNextPage = paging.endPage + 1;
                         console.log(`Next 버튼 클릭 : ${gotoNextPage} 페이지로 이동`);
-                        setPaging((previous) => ({ ...previous, pageNumber: gotoNextPage }));
+                        setPaging((prev) => ({ ...prev, pageNumber: gotoNextPage }));
                     }}
                     disabled={paging.pageNumber >= Math.floor(paging.totalPages / paging.pageCount) * paging.pageCount}
                     as="button"
@@ -293,7 +293,7 @@ function App({ user }) {
                     onClick={() => {
                         const lastPage = paging.totalPages - 1;
                         console.log(`Last 버튼 클릭 : {lastPage} 페이지로 이동`);
-                        setPaging((previous) => ({ ...previous, pageNumber: lastPage }));
+                        setPaging((prev) => ({ ...prev, pageNumber: lastPage }));
                     }}
                     disabled={paging.pageNumber >= Math.floor(paging.totalPages / paging.pageCount) * paging.pageCount}
                     as="button"

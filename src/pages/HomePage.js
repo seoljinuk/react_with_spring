@@ -1,5 +1,5 @@
 import { Carousel, Container } from "react-bootstrap";
-import { API_BASE_URL } from './../config';
+import { API_BASE_URL } from '../config/config';
 
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
                 <Carousel.Item>
                     <img
                         className="d-block w-100"
-						src={`${API_BASE_URL}/images/croissant_03_bigsize.png`}
+                        src={`${API_BASE_URL}/images/croissant_03_bigsize.png`}
                         alt="크로아상"
                     />
                     <Carousel.Caption>
@@ -19,8 +19,8 @@ function App() {
                 </Carousel.Item>
                 <Carousel.Item>
                     <img
-                        className="d-block w-100" 
-						src={`${API_BASE_URL}/images/brioche_04_bigsize.png`}
+                        className="d-block w-100"
+                        src={`${API_BASE_URL}/images/brioche_04_bigsize.png`}
                         alt="브리오슈"
                     />
                     <Carousel.Caption>
@@ -31,7 +31,7 @@ function App() {
                 <Carousel.Item>
                     <img
                         className="d-block w-100"
-						src={`${API_BASE_URL}/images/americano01_bigsize.png`}
+                        src={`${API_BASE_URL}/images/americano01_bigsize.png`}
                         alt="아메리카노"
                     />
                     <Carousel.Caption>
@@ -42,7 +42,7 @@ function App() {
                 <Carousel.Item>
                     <img
                         className="d-block w-100"
-						src={`${API_BASE_URL}/images/whitewine01_bigsize.png`}
+                        src={`${API_BASE_URL}/images/whitewine01_bigsize.png`}
                         alt="화이트 와인"
                     />
                     <Carousel.Caption>
@@ -53,7 +53,7 @@ function App() {
                 <Carousel.Item>
                     <img
                         className="d-block w-100"
-						src={`${API_BASE_URL}/images/french_baguette_01_bigsize.png`}
+                        src={`${API_BASE_URL}/images/french_baguette_01_bigsize.png`}
                         alt="프랑스 바게트"
                     />
                     <Carousel.Caption>

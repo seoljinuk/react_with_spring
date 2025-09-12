@@ -1,15 +1,16 @@
 // src/AppRoutes.js
 import { Routes, Route } from "react-router-dom";
 
-import HomePage from './pages/HomePage';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SignupPage';
-import ProductList from './pages/ProductList';
-import ProductDetail from './pages/ProductDetail';
-import ProductDelete from './pages/ProductDelete';
-import ProductInsertForm from './pages/ProductInsertForm';
-import ProductUpdateForm from './pages/ProductUpdateForm';
-import CartList from './pages/CartList';
+import HomePage from './../pages/HomePage';
+import LoginPage from './../pages/LoginPage';
+import SignupPage from './../pages/SignupPage';
+import ProductList from './../pages/ProductList';
+import ProductDetail from './../pages/ProductDetail';
+// import ProductDelete from './../pages/ProductDelete';
+import ProductInsertForm from './../pages/ProductInsertForm';
+import ProductUpdateForm from './../pages/ProductUpdateForm';
+import OrderList from './../pages/OrderList';
+import CartList from './../pages/CartList';
 
 function AppRoutes({ user, handleLoginSuccess }) {
     return (
@@ -30,6 +31,8 @@ function AppRoutes({ user, handleLoginSuccess }) {
 
             {/* 미로그인시 [장바구니]와 [구매하기] 기능은 선택 불가능해야 하므로, user를 넘겨 줍니다. */}
             <Route path='/product/detail/:id' element={<ProductDetail user={user} />} />
+
+            <Route path='/order/list/:id' element={<OrderList user={user} />} />
         </Routes>
     );
 }

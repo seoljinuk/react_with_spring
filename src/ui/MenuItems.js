@@ -19,7 +19,7 @@ function MenuItems({ user, handleLogout }) {
                 <>
                     <Nav.Link onClick={() => navigate('/product/list')}>상품 보기</Nav.Link>
                     <Nav.Link onClick={() => navigate('/cart/list')}>장바구니</Nav.Link>
-                    <Nav.Link onClick={() => navigate('/order/list')}>주문 내역</Nav.Link>
+                    <Nav.Link onClick={() => navigate(`/order/list?memberId=${user?.id}`)}>주문 내역</Nav.Link>
                     <Nav.Link href='/member/login' onClick={handleLogout}>로그 아웃</Nav.Link>
                 </>
             );

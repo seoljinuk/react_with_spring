@@ -2,7 +2,7 @@ import { Button, Container, Form, Alert, Row, Col, Card } from "react-bootstrap"
 
 import axios from 'axios';
 import { useState } from "react";
-import { API_BASE_URL } from './../config';
+import { API_BASE_URL } from '../config/config';
 
 // 특정한 페이지로 이동을 시킬 때 사용하는 hook
 import { useNavigate } from "react-router-dom";

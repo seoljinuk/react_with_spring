@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Card, Container, Form, Alert, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { API_BASE_URL } from './../config';
+import { API_BASE_URL } from '../config/config';
 
 function App({ setUser }) {
     // setUser : 메인 페이지에서 넘겨 주는 props(로그인 여부를 저장)
