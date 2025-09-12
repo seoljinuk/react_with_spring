@@ -18,7 +18,7 @@ function App() {
     useEffect(() => {
         const loginUser = localStorage.getItem('user');
         setUser(JSON.parse(loginUser));
-    }, []);
+    }, []); /* 빈 배열이 2 번째 매개 변수이므로 최초 렌더링 시 단 한 번만 실행됩니다. */
 
     const handleLoginSuccess = (userData) => {
         setUser(userData);
