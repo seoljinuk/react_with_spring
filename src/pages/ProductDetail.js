@@ -198,7 +198,7 @@ function App({ user }) {
                                 <Button variant="success" className="me-3 px-4"
                                     onClick={() => {
                                         if (!user) {
-                                            alert('로그인이 필요한 서비스입니다');
+                                            alert('로그인이 필요한 서비스입니다.');
                                             return navigate('/member/login');
                                         } else {
                                             addToCart();
@@ -209,7 +209,7 @@ function App({ user }) {
                                 <Button variant="danger" className="px-4"
                                     onClick={() => {
                                         if (!user) {
-                                            alert('로그인이 필요한 서비스입니다');
+                                            alert('로그인이 필요한 서비스입니다.');
                                             return navigate('/member/login');
                                         } else {
                                             buyNow();
