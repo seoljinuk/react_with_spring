@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 function MenuItems({ user, handleLogout }) {
     const navigate = useNavigate();
-
+    /* 하하하 */
     /* user?.role : JavaScript의 옵셔널 체이닝(optional chaining) 문법 */
     /* user가 null이라면 undefined으로 변환이 되고, 오류 메시지를 반환하지 않습니다. */
     switch (user?.role) {
