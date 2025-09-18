@@ -56,7 +56,15 @@ function App() {
                             <h2 className="text-center mb-4">회원 가입</h2>
 
                             {errors.general && <Alert variant="danger">{errors.general}</Alert>}
-
+                             
+                            {/*
+                            	isInvalid 속성은 Form.Control 컴포넌트에서 제공하는 유효성 검사 관련 props
+                            	true면 해당 입력창에 붉은 테두리가 생기고
+                            	<Form.Control.Feedback type="invalid"> 내용이 보여집니다.
+                            
+                            	!! 연산자는 값을 강제로 boolean으로 변환하는 자바스크립트 패턴입니다.
+                            */}
+                             
                             <Form onSubmit={handleSignup}>
                                 <Form.Group className="mb-3" controlId="forName">
                                     <Form.Label>이름</Form.Label>
