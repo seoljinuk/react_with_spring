@@ -7,6 +7,7 @@ const API_PORT = "9000";
 
 //export const API_PORT = "9000";
 
+// http://localhost:9000 
 export const API_BASE_URL = `http://${API_HOST}:${API_PORT}`;
 
 //export const API_BASE_URL = "http://158.180.70.107:9000";

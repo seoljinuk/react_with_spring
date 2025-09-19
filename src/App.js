@@ -1,9 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Container, Nav, Navbar } from 'react-bootstrap';
-import { API_BASE_URL } from './config/config';
+
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+
+import { API_BASE_URL } from './config/config';
 
 // 👇 분리한 라우트 컴포넌트 import
 import AppRoutes from './routes/AppRoutes';

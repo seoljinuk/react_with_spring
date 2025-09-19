@@ -24,13 +24,13 @@ function App() {
 
 
     /*
-        구분	async/await 사용	then/catch 사용
-        필수 여부	❌ (없어도 됨)	✔ 가능
-        가독성	👍 (더 깔끔)	👎 (체인이 길어지면 복잡)
-        에러 처리	try...catch 한 번에 가능	.catch() 따로 작성
-        추천 여부	✔ 대부분의 비동기 코드에서 추천	간단한 한 줄짜리 Promise라면 가능
+        구분	     async/await 사용	        then/catch 사용
+        필수 여부	 없어도 됨	                가능
+        가독성    더 깔끔	                    체인이 길어지면 복잡
+        에러 처리	 try...catch 한 번에 가능	    .catch() 따로 작성
+        추천 여부	 대부분의 비동기 코드에서 추천	간단한 한 줄짜리 Promise라면 가능
     */
-    const handleSignup = async (event) => {
+    const SignupAction = async (event) => {
         event.preventDefault();
 
         /* spring boot에게 post 방식으로 전달 */
@@ -73,7 +73,7 @@ function App() {
                             	!! 연산자는 값을 강제로 boolean으로 변환하는 자바스크립트 패턴입니다.
                             */}
                              
-                            <Form onSubmit={handleSignup}>
+                            <Form onSubmit={SignupAction}>
                                 <Form.Group className="mb-3" controlId="forName">
                                     <Form.Label>이름</Form.Label>
                                     <Form.Control
