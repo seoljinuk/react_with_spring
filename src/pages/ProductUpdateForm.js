@@ -36,7 +36,7 @@ function App() {
     }, [id]);
 
 
-    const handleChange = (event) => {
+    const ControlChange = (event) => {
         // event는 change 이벤트를 발생시킨 폼 양식
         const { name, value } = event.target;
 
@@ -48,7 +48,7 @@ function App() {
         );
     };
 
-    const handleFileChange = (event) => {
+    const FileSelect = (event) => {
         const { name, files } = event.target;
         const file = files[0]; // typ="file"인 요소의 0번째 요소 
 
@@ -73,7 +73,7 @@ function App() {
 
     const navigate = useNavigate();
 
-    const handleSubmit = async (event) => {
+    const SubmitAction = async (event) => {
         event.preventDefault();
 
         try {
@@ -96,7 +96,7 @@ function App() {
     return (
         <Container className="my-4">
             <h1>상품 수정</h1>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={SubmitAction}>
                 <Form.Group className="mb-3" controlId="name">
                     <Form.Label>상품명</Form.Label>
                     <Form.Control
@@ -104,7 +104,7 @@ function App() {
                         placeholder="상품명를(을) 입력해주세요."
                         name="name"
                         value={product.name}
-                        onChange={handleChange}
+                        onChange={ControlChange}
                         required
                     />
                 </Form.Group>
@@ -116,7 +116,7 @@ function App() {
                         placeholder="가격를(을) 입력해주세요."
                         name="price"
                         value={product.price}
-                        onChange={handleChange}
+                        onChange={ControlChange}
                         required
                     />
                 </Form.Group>
@@ -126,7 +126,7 @@ function App() {
                     <Form.Select
                         name="category"
                         value={product.category}
-                        onChange={handleChange}
+                        onChange={ControlChange}
                         required
                     >
                         {/* 자바의 Enum 타입에 대문자로 작성했으면, 여기서도 대문자로 작성할 것 */}
@@ -144,7 +144,7 @@ function App() {
                         placeholder="재고를(을) 입력해주세요."
                         name="stock"
                         value={product.stock}
-                        onChange={handleChange}
+                        onChange={ControlChange}
                         required
                     />
                 </Form.Group>
@@ -156,7 +156,7 @@ function App() {
                     <Form.Control
                         type="file"
                         name="image"
-                        onChange={handleFileChange}
+                        onChange={FileSelect}
                         required
                     />
                 </Form.Group>
@@ -168,7 +168,7 @@ function App() {
                         placeholder="상품에 대한 설명를(을) 입력해주세요."
                         name="description"
                         value={product.description}
-                        onChange={handleChange}
+                        onChange={ControlChange}
                         required
                     />
                 </Form.Group>

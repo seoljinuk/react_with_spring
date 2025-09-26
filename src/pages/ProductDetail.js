@@ -42,6 +42,17 @@ function App({ user }) {
             default: return `기타(${category})`;
         }
     };
+	
+
+    if (loading === true) {
+        return <Container className="my-4 text-center"><h3>상품 정보를 읽어 오는 중입니다.</h3></Container>;
+    }
+
+    if (!product) {
+        return <Container className="my-4 text-center"><h3>상품 정보를 찾을 수 없습니다.</h3></Container>;
+    }
+
+	
 
     // 구매 수량 관련 항목들
     const [quantity, setQuantity] = useState(0); // 구매 수량 State
@@ -65,7 +76,9 @@ function App({ user }) {
 
         try {
             const url = `${API_BASE_URL}/cart/insert`;
-            const data = {
+            
+			// 스프링에서 CartProductDto라는 클래스와 매치됩니다.
+			const data = {
                 memberId: user.id,
                 productId: product.id,
                 quantity: quantity
@@ -125,13 +138,6 @@ function App({ user }) {
 
 
 
-    if (loading === true) {
-        return <Container className="my-4 text-center"><h3>상품 정보를 읽어 오는 중입니다.</h3></Container>;
-    }
-
-    if (!product) {
-        return <Container className="my-4 text-center"><h3>상품 정보를 찾을 수 없습니다.</h3></Container>;
-    }
     return (
         <Container className="my-4">
             <Card>

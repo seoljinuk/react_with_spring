@@ -16,7 +16,7 @@ function App({ setUser }) {
     // 오류 메시지 관련 state
     const [error, setError] = useState('');
 
-    const handleLogin = async (event) => {
+    const LoginAction = async (event) => {
         event.preventDefault();
 
         try {
@@ -55,7 +55,7 @@ function App({ setUser }) {
                     {/* 오류 메시지 표시 */}
                     {error && <Alert variant="danger">{error}</Alert>}
 
-                    <Form onSubmit={handleLogin}>
+                    <Form onSubmit={LoginAction}>
                         <Form.Group controlId="email" className="mb-3">
                             <Form.Label>이메일</Form.Label>
                             <Form.Control

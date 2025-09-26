@@ -85,6 +85,50 @@ function App({ user }) {
     // 2번째 매개 변수 []로 인하여 딱 1번만 rendering합니다. 
 
     const navigate = useNavigate();
+	
+    const makeAdminButtons = (item, user, navigate) => {
+        if (user?.role !== 'ADMIN') return null;
+
+        return (
+            <div className="d-flex justify-content-center">
+                <Button
+                    variant="warning"
+                    className="me-2"
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        navigate(`/product/update/${item.id}`);
+                    }}
+                >
+                    수정
+                </Button>
+                <Button
+                    variant="danger"
+                    className="me-2"
+                    onClick={async (event) => {
+                        event.stopPropagation();
+
+                        const confirmDelete = window.confirm(`${item.name} 상품을 정말 삭제하시겠습니까?`);
+                        if (!confirmDelete) {
+                            alert(`${item.name} 상품 삭제를 취소하셨습니다.`);
+                            return;
+                        }
+
+                        try {
+                            await axios.delete(`${API_BASE_URL}/product/delete/${item.id}`);
+                            alert(`${item.name} 상품이 삭제되었습니다.`);
+                            navigate('/product/list');
+                        } catch (error) {
+                            console.error(error);
+                            alert('상품 삭제 실패: ' + (error.response?.data || error.message));
+                        }
+                    }}
+                >
+                    삭제
+                </Button>
+            </div>
+        );
+    };
+	
 
     return (
         <Container className="my-4">
@@ -169,21 +213,24 @@ function App({ user }) {
             </Form>
 
             <Row>
-                {products.map((product) => (
-                    <Col key={product.id} md={4} className="mb-4">
+                {products.map((item) => (
+                    <Col key={item.id} md={4} className="mb-4">
                         <Card className="h-100"
-                            onClick={() => navigate(`/product/detail/${product.id}`)}
+                            onClick={() => navigate(`/product/detail/${item.id}`)}
                             style={{ cursor: 'pointer' }}
                         >
                             <Card.Img
                                 variant="top"
-                                src={`${API_BASE_URL}/images/${product.image}`}
-                                alt={product.name}
+                                src={`${API_BASE_URL}/images/${item.image}`}
+                                alt={item.name}
                                 style={{ width: '100%', height: '200px', objectFit: 'cover' }}
                             />
                             <Card.Body>
-                                <Card.Title>{product.name}({product.id})</Card.Title>
-                                <Card.Text>가격 : {product.price.toLocaleString()}원</Card.Text>
+                                <Card.Title>{item.name}({item.id})</Card.Title>
+                                <Card.Text>가격 : {item.price.toLocaleString()}원</Card.Text>
+								 
+								 {makeAdminButtons(item, user, navigate)}
+								 
                                 {user?.role === 'ADMIN' && (
                                     <div className="d-flex justify-content-center">
                                         <Button
@@ -191,7 +238,7 @@ function App({ user }) {
                                             className="me-2"
                                             onClick={(event) => {
                                                 event.stopPropagation(); // Card Click Event 방지 
-                                                navigate(`/product/update/${product.id}`);
+                                                navigate(`/product/update/${item.id}`);
                                             }}
                                         >
                                             수정
@@ -203,16 +250,16 @@ function App({ user }) {
                                                 event.stopPropagation(); // Card Click Event 방지
 
                                                 // 삭제 확인 창
-                                                const confirmDelete = window.confirm(`${product.name} 상품을 정말 삭제하시겠습니까?`);
+                                                const confirmDelete = window.confirm(`${item.name} 상품을 정말 삭제하시겠습니까?`);
                                                 if (!confirmDelete) {
-                                                    alert(`${product.name} 상품 삭제를 취소하셨습니다.`);
+                                                    alert(`${item.name} 상품 삭제를 취소하셨습니다.`);
                                                     return; // '취소' 클릭 시 아무 동작도 하지 않음                                                  
                                                 }
 
                                                 try {
                                                     // 삭제 API 호출
-                                                    await axios.delete(`${API_BASE_URL}/product/delete/${product.id}`);
-                                                    alert(`${product.name} 상품이 삭제되었습니다.`);
+                                                    await axios.delete(`${API_BASE_URL}/product/delete/${item.id}`);
+                                                    alert(`${item.name} 상품이 삭제되었습니다.`);
 
                                                     // 삭제 후 목록 페이지로 이동
                                                     navigate('/product/list');
