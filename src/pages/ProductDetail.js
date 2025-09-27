@@ -58,7 +58,7 @@ function App({ user }) {
     const [quantity, setQuantity] = useState(0); // 구매 수량 State
 
     // 수량 체인치 관련 이벤트 핸들러
-    const handleQuantityChange = (event) => {
+    const QuantityChange = (event) => {
         const newValue = parseInt(event.target.value);
         setQuantity(newValue);
     };
@@ -191,7 +191,7 @@ function App({ user }) {
                                     <Form.Control
                                         type="number"
                                         value={quantity}
-                                        onChange={handleQuantityChange}
+                                        onChange={QuantityChange}
                                         min="1"
                                         disabled={!user}
                                     />
