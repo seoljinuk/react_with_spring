@@ -46,14 +46,14 @@ function App({ user }) {
     };
 
     // `전체 선택` 체크 박스를 Toggle했습니다.
-    const toggleAllCheckBox = (allCheckBoxStatus) => {
-        console.log(`전체 선택 체크 박스 : ${allCheckBoxStatus}`);
+    const toggleAllCheckBox = (isAlChecked) => {
+        console.log(`전체 선택 체크 박스 : ${isAlChecked}`);
 
-        setCartProducts((previousProducts) => {
+        setCartProducts((previous) => {
             // 모든 상품들의 체크 상태를 `전체 선택` 체크 박스의 상태와 동일하게 설정합니다.
-            const updatedProducts = previousProducts.map((product) => ({
+            const updatedProducts = previous.map((product) => ({
                 ...product,
-                checked: allCheckBoxStatus
+                checked: isAlChecked
             }));
 
             // 총 주문 금액을 갱신합니다.
@@ -71,12 +71,12 @@ function App({ user }) {
 
 
     // 개별 체크 박스의 값을 Toggle했습니다.
-    const toggleCheck = (cartProductId) => {
+    const toggleCheckBox = (cartProductId) => {
         console.log(`카트 상품 아이디 : ${cartProductId}`);
 
-        setCartProducts((previousProducts) => {
+        setCartProducts((previous) => {
             // 해당 상품의 checked 상태를 반전시킵니다.
-            const updatedProducts = previousProducts.map((product) =>
+            const updatedProducts = previous.map((product) =>
                 // 여러 개의 목록 중에서 `카트 상품` 아이디가 동일한 항목에 대해서만 ! 연산자로 상태 반전 
                 product.cartProductId === cartProductId
                     ? { ...product, checked: !product.checked }
@@ -94,8 +94,8 @@ function App({ user }) {
     // 카트 상품 목록 중 특정 상품의 구매 수량을 변경하고자 합니다.
     const changeQuantity = async (cartProductId, quantity) => {
         if (isNaN(quantity)) { // 숫자 형식이 아니면           
-            setCartProducts((previousProducts) =>
-                previousProducts.map((product) =>
+            setCartProducts((previous) =>
+                previous.map((product) =>
                     product.cartProductId === cartProductId ? { ...product, quantity: 0 } : product
                 )
             );
@@ -115,9 +115,9 @@ function App({ user }) {
             console.log(response.data || '');
 
             // cartProducts의 수량 갱신
-            setCartProducts((previousProducts) => {
-                // previousProducts : 갱신 전 카트 상품 데이터   
-                const updatedProducts = previousProducts.map((product) =>
+            setCartProducts((previous) => {
+                // previous : 갱신 전 카트 상품 데이터   
+                const updatedProducts = previous.map((product) =>
                     // 방금 내가 수정한 `카트 상품 아이디`와 동일하면, `전개 연산자`를 사용하여 해당 상품의 quantity 갱신
                     product.cartProductId === cartProductId ? { ...product, quantity } : product
                 )
@@ -162,9 +162,9 @@ function App({ user }) {
                 const response = await axios.delete(url);
 
                 // 카트 상품 목록을 갱신하고, 요금을 다시 계산합니다.
-                setCartProducts((previousProducts) => {
+                setCartProducts((previous) => {
                     // updatedProducts : 삭제된 품목을 제외한 갱신된 카트 상품들
-                    const updatedProducts = previousProducts.filter((bean) => bean.cartProductId !== cartProductId);
+                    const updatedProducts = previous.filter((bean) => bean.cartProductId !== cartProductId);
 
                     refreshOrderTotalPrice(updatedProducts);
 
@@ -253,7 +253,7 @@ function App({ user }) {
                                     <Form.Check
                                         type="checkbox"
                                         checked={product.checked}
-                                        onChange={() => toggleCheck(product.cartProductId)}
+                                        onChange={() => toggleCheckBoxtoggleCheckBox(product.cartProductId)}
                                     />
                                 </td>
                                 <td className="text-center align-middle">
