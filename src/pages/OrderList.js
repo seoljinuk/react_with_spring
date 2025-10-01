@@ -1,5 +1,156 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { Button, Card, Col, Container, Row, Spinner, Alert } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
+import { API_BASE_URL } from "../config/config";
+
+function App({ user }) {
+    const [orders, setOrders] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
+
+    const navigate = useNavigate();
+
+    // 주문 목록 불러오기
+    useEffect(() => {
+        if (!user) {
+            setError("로그인이 필요합니다.");
+            setLoading(false);
+            return;
+        }
+
+        const fetchOrders = async () => {
+            try {
+                const response = await axios.get(`${API_BASE_URL}/order/list`, {
+                    params: { memberId: user.id }, // 로그인한 회원 id
+                    withCredentials: true,
+                });
+                setOrders(response.data);
+            } catch (err) {
+                console.log(err);
+                setError("주문 목록을 불러오는 데 실패했습니다.");
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchOrders();
+    }, [user]);
+
+    if (loading) {
+        return (
+            <div className="d-flex justify-content-center align-items-center p-5">
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">주문 목록을 불러오는 중입니다.</span>
+                </Spinner>
+            </div>
+        );
+    }
+
+    if (error) {
+        return (
+            <Container className="my-4">
+                <Alert variant="danger">{error}</Alert>
+            </Container>
+        );
+    }
+	
+	
+// 관리자 버튼 컴포넌트/함수
+	const makeAdminButtons = (order, user, navigate, setOrders) => {
+		if (user?.role !== "ADMIN") return null;
+
+		return (
+			<div className="d-flex justify-content-end mt-3">
+				<Button
+					variant="warning"
+					size="sm"
+					className="me-2"
+					onClick={() => navigate(`/order/update/${order.orderId}`)}
+				>
+					수정
+				</Button>
+				<Button
+					variant="danger"
+					size="sm"
+					onClick={async () => {
+						const confirmDelete = window.confirm(
+							`주문번호 ${order.orderId}을(를) 삭제하시겠습니까?`
+						);
+						if (!confirmDelete) return;
+
+						try {
+							await axios.delete(`${API_BASE_URL}/order/delete/${order.orderId}`);
+							alert(`주문번호 ${order.orderId} 삭제 완료`);
+							setOrders((prev) => prev.filter((o) => o.orderId !== order.orderId));
+						} catch (error) {
+							console.log(error);
+							alert("주문 삭제 실패");
+						}
+					}}
+				>
+					삭제
+				</Button>
+			</div>
+		);
+	};	
+
+    return (
+        <Container className="my-4">
+            <h1 className="my-4">🧾 주문 내역</h1>
+
+            {orders.length === 0 ? (
+                <Alert variant="secondary">주문 내역이 없습니다.</Alert>
+            ) : (
+                <Row>
+                    {orders.map((order) => (
+                        <Col key={order.orderId} md={6} className="mb-4">
+                            <Card className="h-100 shadow-sm">
+                                <Card.Body>
+                                    <div className="d-flex justify-content-between">
+                                        <Card.Title>주문번호: {order.orderId}</Card.Title>
+                                        <small className="text-muted">{order.orderDate}</small>
+                                    </div>
+                                    <Card.Text>
+                                        상태: <strong>{order.status}</strong>
+                                    </Card.Text>
+
+                                    <ul style={{ paddingLeft: "20px" }}>
+                                        {order.orderItems.map((item, index) => (
+                                            <li key={index}>
+                                                {item.productName} × {item.quantity}
+                                            </li>
+                                        ))}
+                                    </ul>
+
+                                    {/* 관리자 전용 버튼 */}
+									{makeAdminButtons(order, user, navigate, setOrders)}
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            )}
+        </Container>
+    );
+}
+
+export default App;
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------------
+
+
+
+
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function OrderList({ user }) {
     const [orders, setOrders] = useState([]);

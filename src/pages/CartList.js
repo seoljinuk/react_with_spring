@@ -182,7 +182,7 @@ function App({ user }) {
         }
     };
 
-    const orders = async () => {
+    const makeOrder = async () => {
         console.log(`주문 로직 시작`);
 
         const selectedProducts = cartProducts.filter((bean) => bean.checked);
@@ -194,8 +194,8 @@ function App({ user }) {
         try {
             const url = `${API_BASE_URL}/cart/order`;
 
-            // 스프링 부트의 OrderItemDto, OrderRequestDto 클래스와 연관이 있습니다.
-            const data = {
+            // 스프링 부트의 OrderItemDto, OrderDto 클래스와 연관이 있습니다.
+            const parameters = {
                 memberId: user.id,
                 status: 'PENDING',
                 orderItems: selectedProducts.map((product) => ({
@@ -205,8 +205,8 @@ function App({ user }) {
                 }))
             };
             console.log(`주문할 데이터 정보`);
-            console.log(data);
-            const response = await axios.post(url, data);
+            console.log(parameters);
+            const response = await axios.post(url, parameters);
             alert(response.data);
 
             // 주문한 상품을 장바구니에서 제거 또는 선택 해제
@@ -298,7 +298,7 @@ function App({ user }) {
 
             <h3 className="text-end mt-3">총 주문 금액 : {orderTotalPrice.toLocaleString()} 원</h3>
             <div className="text-end">
-                <Button variant="primary" size="lg" onClick={orders}>
+                <Button variant="primary" size="lg" onClick={makeOrder}>
                     주문하기
                 </Button>
             </div>
