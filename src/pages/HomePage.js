@@ -15,25 +15,25 @@ function App() {
             .catch(error => console.error(error));
     }, []);
 
-    const handleDetailClick = (id) => {
+    const detailView = (id) => {
         navigate(`/detail/${id}`);  // ✅ 상세 페이지 이동
     };
 
     return (
         <Container className="mt-4">
             <Carousel>
-                {products.map(product => (
-                    <Carousel.Item key={product.id}>
+                {products.map(bean => (
+                    <Carousel.Item key={bean.id}>
                         <img
                             className="d-block w-100"
-                            src={`${API_BASE_URL}/images/${product.image}`}
-                            alt={product.name}
+                            src={`${API_BASE_URL}/images/${bean.image}`}
+                            alt={bean.name}
                             style={{ cursor: "pointer" }}   // 마우스 오버 시 손가락 모양
-                            onClick={() => handleDetailClick(product.id)}  // ✅ 클릭 이벤트
+                            onClick={() => detailView(bean.id)}  // ✅ 클릭 이벤트
                         />
                         <Carousel.Caption>
-                            <h3>{product.name}</h3>
-                            <p>{product.description}</p>
+                            <h3>{bean.name}</h3>
+                            <p>{bean.description}</p>
                         </Carousel.Caption>
                     </Carousel.Item>
                 ))}

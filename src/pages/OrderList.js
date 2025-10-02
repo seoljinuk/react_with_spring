@@ -56,9 +56,26 @@ function App({ user }) {
         );
     }
 	
+	// 주문 삭제 함수
+	const handleDeleteOrder = async (orderId, setOrders) => {
+		const confirmDelete = window.confirm(
+			`주문번호 ${orderId}을(를) 삭제하시겠습니까?`
+		);
+		if (!confirmDelete) return;
+
+		try {
+			await axios.delete(`${API_BASE_URL}/order/delete/${orderId}`);
+			alert(`주문번호 ${orderId} 삭제 완료`);
+			setOrders((prev) => prev.filter((o) => o.orderId !== orderId));
+		} catch (error) {
+			console.log(error);
+			alert("주문 삭제 실패");
+		}
+	};
+	
 	
 // 관리자 버튼 컴포넌트/함수
-	const makeAdminButtons = (order, user, navigate, setOrders) => {
+	const makeAdminButtons = (bean, user, navigate, setOrders) => {
 		if (user?.role !== "ADMIN") return null;
 
 		return (
@@ -67,7 +84,7 @@ function App({ user }) {
 					variant="warning"
 					size="sm"
 					className="me-2"
-					onClick={() => navigate(`/order/update/${order.orderId}`)}
+					onClick={() => navigate(`/order/update/${bean.orderId}`)}
 				>
 					수정
 				</Button>
@@ -76,14 +93,14 @@ function App({ user }) {
 					size="sm"
 					onClick={async () => {
 						const confirmDelete = window.confirm(
-							`주문번호 ${order.orderId}을(를) 삭제하시겠습니까?`
+							`주문번호 ${bean.orderId}을(를) 삭제하시겠습니까?`
 						);
 						if (!confirmDelete) return;
 
 						try {
-							await axios.delete(`${API_BASE_URL}/order/delete/${order.orderId}`);
-							alert(`주문번호 ${order.orderId} 삭제 완료`);
-							setOrders((prev) => prev.filter((o) => o.orderId !== order.orderId));
+							await axios.delete(`${API_BASE_URL}/order/delete/${bean.orderId}`);
+							alert(`주문번호 ${bean.orderId} 삭제 완료`);
+							setOrders((prev) => prev.filter((o) => o.orderId !== bean.orderId));
 						} catch (error) {
 							console.log(error);
 							alert("주문 삭제 실패");
@@ -125,7 +142,7 @@ function App({ user }) {
                                     </ul>
 
                                     {/* 관리자 전용 버튼 */}
-									{makeAdminButtons(order, user, navigate, setOrders)}
+									{makeAdminButtons(bean, user, navigate, setOrders)}
                                 </Card.Body>
                             </Card>
                         </Col>
